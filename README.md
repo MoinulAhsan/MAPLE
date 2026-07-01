@@ -125,12 +125,21 @@ MAPLE is evaluated under a range of simulated settings including
 
 Prediction of the **Hoehn–Yahr stage** using baseline clinical and biomarker data from the Parkinson's Progression Markers Initiative (PPMI).
 
-+-------------------------------+-----------------------------+
-|                               |                             |
-+===============================+=============================+
-| ![](Images/PPMI_cutoff5.png)\ | ![](Images/PPMI_t_SNE.png)\ |
-| **Mapper Plot**               | **t-SNE Plot**              |
-+-------------------------------+-----------------------------+
+
+<table align="center" width="100%">
+<tr>
+<td align="center" width="50%">
+<img src="Images/PPMI_cutoff5.png" width="100%"><br>
+<b>Mapper Plot</b>
+</td>
+
+<td align="center" width="50%">
+<img src="Images/PPMI_t_SNE.png" width="100%"><br>
+<b>t-SNE Plot</b>
+</td>
+</tr>
+</table>
+
 
 The Mapper graph reveals localized disease structure while preserving the connectivity among patient subgroups, providing a more informative representation than conventional low-dimensional visualization.
 
