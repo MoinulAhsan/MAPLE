@@ -93,11 +93,11 @@ where the normalized inverse-squared distance weights are $`\tilde{w}_i=\frac{\|
 {\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}`$
 
 For ordinal outcomes, the cumulative estimated probabilities are $`\hat{F}(r\mid t_{\mathrm{new}})
-=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}})`$ and the predicted class is obtained using the posterior median rule $`\hat{y}(x_{\mathrm{new}})
-=\inf\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\}`$ which defines **Ordinal MAPLE (O-MAPLE)**.
+=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}})`,$ and the predicted class is obtained using the posterior median rule $`\hat{y}(x_{\mathrm{new}})
+=\inf\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\}`,$ which defines **Ordinal MAPLE (O-MAPLE)**.
 
 For nominal outcomes, the predicted class is $`\hat{y}(x_{\mathrm{new}})
-=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}})`$ which defines **Multinomial MAPLE (M-MAPLE)**.
+=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}})`,$ which defines **Multinomial MAPLE (M-MAPLE)**.
 
 ---
 
