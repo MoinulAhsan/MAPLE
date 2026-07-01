@@ -3,8 +3,8 @@ path<-"C:\\Users\\ahsanm8\\Desktop\\Dr. Nitai_Final_code\\Github_Material_Mapper
 source(file.path(path, "Mapper_Prediction_function.R"))
 source(file.path(path, "Compititive_models_function.R"))
 
-
-if (!require("pacman")) install.packages("pacman"); pacman::p_load(TDA, ggplot2, plotly, FNN, cluster, matrixStats, dbscan, igraph, rgl, mappeR, grid, ks, tidyr, devtools, fastcluster, DescTools, pROC, MASS, fclust, umap, mclust, NbClust, proxy, boot, pls, dplyr, infotheo, sigclust, randomForest, irr, accSDA, brant, RColorBrewer, factoextra, nnet, ordinalForest, survival, parallelDist)
+if (!require("pacman")) install.packages("pacman"); pacman::p_load(TDA, ggplot2, plotly, FNN, cluster, matrixStats, dbscan, igraph, rgl, mappeR, grid, ks, tidyr, devtools, fastcluster, DescTools, pROC, MASS, fclust, umap, mclust, NbClust, proxy, boot, pls,
+                                                                   dplyr, infotheo, sigclust, randomForest, irr, accSDA, brant, RColorBrewer, factoextra, nnet, ordinalForest, survival, parallelDist,readxl)
 
 
 # Set your file path
@@ -121,7 +121,7 @@ rf_model <- randomForest(
   proximity = FALSE
 )
 
-rf_importance <- importance(rf_model, type = 1)   # type=1 = MeanDecreaseAccuracy
+rf_importance <- randomForest::importance(rf_model, type = 1)   # type=1 = MeanDecreaseAccuracy
 
 rf_imp_df <- data.frame(
   Variable = rownames(rf_importance),
@@ -143,6 +143,7 @@ data <- data1[, c("Y", selected_genes)]
 Y<-data[,1]
 X<-data[,-1]
 
+save(data,file = file.path(file_path, "UCSC_Xena_data.RData"))
 ##########################
 
 

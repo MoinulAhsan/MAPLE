@@ -7,7 +7,7 @@ source(file.path(path, "Variable_Importance_Rank_Function.R"))
 
 if (!require("pacman")) install.packages("pacman"); pacman::p_load(TDA, ggplot2, plotly, FNN, cluster, matrixStats, dbscan, igraph, rgl, mappeR, grid, ks, tidyr, devtools, fastcluster,
                                                                    DescTools, pROC, MASS, fclust, umap, mclust, NbClust, proxy, boot, pls, dplyr, infotheo, sigclust, randomForest, irr, 
-                                                                   accSDA, brant, RColorBrewer, factoextra, nnet, ordinalForest, survival, parallelDist)
+                                                                   accSDA, brant, RColorBrewer, factoextra, nnet, ordinalForest, survival, parallelDist,readxl)
 
 
 Curated_data<-read_excel("C:\\Users\\ahsanm8\\Desktop\\PPMI_Data\\PPMI_Curated_Data_Cut_Public_20250321.xlsx",
