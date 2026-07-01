@@ -37,7 +37,7 @@ $$
 
 which is estimated through localized neighborhoods induced by the Mapper graph.
 
-------------------------------------------------------------------------
+---
 
 ### Mapper Construction
 
@@ -69,37 +69,38 @@ $$
 
 The resulting optimal scaling is
 
-- Number of intervals $l^*=\left( \frac{n(1 - \rho)}{\rho} \right)^{1/5}$
+- Number of intervals $l^{*}=\left(\frac{8n(1-\rho)}{\rho}\right)^{1/5}$
 
-- Observations per interval $S^*=2n/(l^*+1)$
+- Observations per interval $S^{*}=\frac{2n}{l^{*}+1}$
 
-- Shift between consecutive intervals $q^*=n/(l^*+1)$ 
+- Shift between consecutive intervals $q^{*}=\frac{n}{l^{*}+1}$
 
-yielding an optimal overlap ratio $q^*/S^*=1/2$
+yielding an optimal overlap ratio $\frac{q^{*}}{S^{*}}=\frac12.$
 
 The tuning parameter $\rho$ is selected by cross-validation.
 
-------------------------------------------------------------------------
+---
 
 ### Localized Prediction
 
 For a new observation $x_{\mathrm{new}}$, MAPLE computes its filter value $t_{\mathrm{new}}=f(x_{\mathrm{new}})$, identifies the corresponding Mapper interval(s), assigns the observation to the nearest Mapper cluster, and constructs a localized graph neighborhood. The conditional class probabilities are estimated by
 
 $$
-\hat{\eta}_r(t_{\mathrm{new}})
-=
+\hat{\eta}_r(t_{\mathrm{new}})=
 \sum_{i=1}^{m}
-\tilde{w}_i \, \mathbf{1}(y_i=r),
-\qquad r=1,\ldots,R.
+\tilde{w}_i
+\mathbf{1}(y_i=r),
+\qquad
+r=1,\ldots,R,
 $$
 
-where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}$.
+where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}.$
 
-For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}})$, and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\tfrac{1}{2}\}$, which defines **Ordinal MAPLE (O-MAPLE)**.
+For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}}),$ and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\left\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\right\},$ which defines Ordinal MAPLE (O-MAPLE).
 
-For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}})$, which defines **Multinomial MAPLE (M-MAPLE)**.
+For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}}),$ which defines Multinomial MAPLE (M-MAPLE).
 
-------------------------------------------------------------------------
+---
 
 ## Repository Structure
 
@@ -149,7 +150,7 @@ Prediction of the **Hoehn–Yahr stage** using baseline clinical and biomarker d
 
 The Mapper graph reveals localized disease structure while preserving the connectivity among patient subgroups, providing a more informative representation than conventional low-dimensional visualization.
 
-------------------------------------------------------------------------
+---
 
 ### 2. TCGA Glioma (UCSC Xena)
 
@@ -165,7 +166,7 @@ The resulting Mapper graph summarizes the topological organization of the transc
 
 - R (recommended)
 
-------------------------------------------------------------------------
+---
 
 ## Contact
 
@@ -173,7 +174,7 @@ The resulting Mapper graph summarizes the topological organization of the transc
 *Virginia Commonwealth University*\
 📧 Email: [ahsanm8\@vcu.edu](mailto:ahsanm8@vcu.edu)
 
-------------------------------------------------------------------------
+---
 
 ## Keywords
 
