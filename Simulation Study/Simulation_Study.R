@@ -19,7 +19,7 @@ RNGkind(sample.kind = "Rejection")
 # path <- " "  #please set the path accordingly
 # setwd(path)
 #
-path<-"C:\\Users\\ahsanm8\\OneDrive - Virginia Commonwealth University\\Desktop\\VCU fall 2023\\Dr. Nitai Project\\Github_Material_Mapper"
+path<-"C:\\Users\\ahsanm8\\Desktop\\Dr. Nitai_Final_code\\Github_Material_Mapper"
 source(file.path(path, "Mapper_Prediction_function.R"))
 source(file.path(path, "Compititive_models_function.R"))
 
@@ -165,8 +165,12 @@ simulate_ordinal_data <- function(n = 250, noise = 0.2, scenario = 1, seed = 123
 
 
 
+## --------------------------------
+## user choice of n,noise,scenario
 
 data<-simulate_ordinal_data(n=250, noise = 0.2, scenario = 1)
+
+## --------------------------------
 
 
 
@@ -423,7 +427,6 @@ ORF_c_index_se <- sd(ORF_c_index) / sqrt(length(ORF_c_index))
 
 
 
-# ordinal_logistic_mean_auc<- ordinal_logistic_se_auc <- mean_qwk_ordinal_logistic<-se_qwk_ordinal_logistic<-OLR_c_index_mean<-OLR_c_index_se<-0
 
 
 
@@ -471,7 +474,7 @@ results_table <- data.frame(
 )
 
 
-results_table
+print(results_table)
 
 
 

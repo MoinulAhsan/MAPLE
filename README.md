@@ -1,210 +1,165 @@
-# Mapper-Based Localized Prediction with Data-Driven Cover Selection for High-Dimensional Data
+# MAPLE: Mapper Based Localized Prediction with Data Driven Cover Selection for High dimensional Data
 
 ## Overview
-This repository implements a **Mapper-based localized prediction framework** for high-dimensional data using **Topological Data Analysis (TDA)**. The method leverages the geometric and connectivity structure of data to perform nonparametric prediction via graph-induced neighborhoods.
 
----
+MAPLE (Mapper-Based Adaptive Prediction via Local Estimation) is a prediction framework built upon the Mapper algorithm from Topological Data Analysis (TDA). The proposed method extends Mapper beyond exploratory data analysis by introducing a statistically principled framework for localized prediction with data-driven cover selection.
 
-## 🔑 Key Idea
+The framework estimates conditional class probabilities using graph-induced neighborhoods defined by the connectivity structure of the Mapper graph. MAPLE accommodates ordinal, nominal, and binary outcomes while providing theoretical guarantees, including pointwise consistency and Bayes-risk consistency.
 
-We model prediction as estimation of conditional probabilities:
+## Key Features
 
-$$
-P(Y \mid X = x)
-$$
+- Mapper-based localized prediction through graph-induced neighborhoods.
+- Data-driven cover selection based on a bias–variance trade-off with optimal asymptotic scaling.
+- Localized estimation of conditional class probabilities using graph-based neighborhoods.
+- Supports
+  - Ordinal outcomes (O-MAPLE)
+  - Nominal outcomes (M-MAPLE)
+  - Binary outcomes
+- Permutation-based variable importance for assessing predictor contributions.
+- Theoretical guarantees, including
+  - Pointwise consistency
+  - Bayes-risk consistency
+- Applicable to high-dimensional and heterogeneous data with complex geometric structure.
 
-where estimation is based on observations selected through **Mapper graph neighborhoods**, rather than standard metric-based neighborhoods.
+## Method Overview
 
-- Data is projected via a **filter function: Ordinal Accelerated Sparse Discriminant Analysis (OASDA)**
-- A **data-driven overlapping cover** is constructed
-- **Clustering + graph connectivity** defines local neighborhoods
-- Prediction is performed via **localized weighted averaging**
+Consider independent observations $(x_i,y_i),\; i=1,\ldots,n,\;$ where
 
----
+- $x_i\in\mathbb{R}^p$ is a $p$-dimensional predictor vector,
+- $y_i\in\{1,\ldots,R\}$ is an ordinal response with $R$ ordered classes.
 
-## Features
+MAPLE first constructs a one-dimensional filter $T=f(X),$ using Ordinal Accelerated Sparse Discriminant Analysis (OASDA). The objective is to estimate the conditional class probabilities
 
-- 📊 Topology-aware prediction  
-- 🔬 Designed for high-dimensional biomedical data  
-- ⚙️ Data-driven cover selection (bias–variance trade-off)  
-- 📈 Works for:
-  - Ordinal outcomes 
-  - Nominal classification  
-  - Binary outcomes  
-- 🔍 Permutation-based variable importance  
-- 📐 Theoretical guarantees:
-  - Consistency  
-  - Bayes-risk optimality  
+$$\eta_r(t)=P(Y=r\mid T=t),
+\qquad r=1,\ldots,R,$$
 
----
+which is estimated through localized neighborhoods induced by the Mapper graph.
 
-## 📂 Repository Structure
+------------------------------------------------------------------------
 
-```text
+### Mapper Construction
+
+The Mapper graph is constructed from the one-dimensional filter values by
+
+- partitioning the filter into overlapping intervals,
+- performing hierarchical clustering (Ward's method) within each interval,
+- creating a graph whose nodes represent clusters and whose edges connect clusters sharing common observations.
+
+The resulting Mapper graph captures the local connectivity and global geometric structure of the predictor space.
+
+### Data-Driven Cover Selection
+
+MAPLE selects the interval cover by minimizing the bias–variance criterion
+
+$$L(S,l)=\rho S^{-1}+(1-\rho)l^{-4},
+\qquad
+0<\rho<1,$$
+
+subject to
+
+$$S+(l-1)q=n,
+\qquad
+\frac{S}{2}\le q\le S.$$
+
+The resulting optimal scaling is
+
+- Number of intervals $l^{*}=\left(\frac{8n(1-\rho)}{\rho}\right)^{1/5}$
+
+- Observations per interval $S^{*}=\frac{2n}{l^{*}+1}$
+
+- Shift between consecutive intervals $q^{*}=\frac{n}{l^{*}+1}$
+
+yielding an optimal overlap ratio $\frac{q^{*}}{S^{*}}=\frac12.$
+
+The tuning parameter $\rho$ is selected by cross-validation.
+
+------------------------------------------------------------------------
+
+### Localized Prediction
+
+For a new observation $x_{\mathrm{new}}$, MAPLE computes its filter value $t_{\mathrm{new}}=f(x_{\mathrm{new}})$, identifies the corresponding Mapper interval(s), assigns the observation to the nearest Mapper cluster, and constructs a localized graph neighborhood. The conditional class probabilities are estimated by
+
+$$\hat{\eta}_r(t_{\mathrm{new}})
+=
+\sum_{i=1}^{m}
+\tilde{w}_i
+\mathbf{1}(y_i=r),
+\qquad
+r=1,\ldots,R,$$
+
+where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}.$
+
+For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}}),$ and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\left\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\right\},$ which defines Ordinal MAPLE (O-MAPLE).
+
+For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}}),$ which defines Multinomial MAPLE (M-MAPLE).
+
+------------------------------------------------------------------------
+
+## Repository Structure
+
+``` text
 .
 ├── Simulation Study/
-│   ├── Scenario 1/
-│   └── Scenario 2/
 ├── Real Data Analysis/
-│   ├── PPMI/
-│   └── UCSC Xena/
+│   ├── PPMI
+│   └── UCSC Xena
 ├── Images/
-│   ├── PPMI.png
-│   └── Final_UCSC_Xena.png
 └── README.md
-
 ```
-
----
-
-## Method Summary
-
-### 1. Mapper Construction
-- Filter: OASDA projection  
-- Cover: overlapping intervals  
-- Clustering: hierarchical (Ward’s method)  
-- Output: Mapper graph  
-
----
-
-### 2. Prediction Rule
-
-For a new point:
-
-- Identify relevant intervals  
-- Assign to nearest clusters  
-- Aggregate over graph-connected nodes  
-- Compute weighted class probabilities  
-
----
-
-### 3. Cover Selection
- 
-Parameters are selected using a data-driven bias–variance trade-off
-where Loss Function: 
-
-$$
-L(S,l)=\rho S^{-1}+(1-\rho)l^{-4}, \quad \rho\in(0,1)
-$$
-
-under constraint 
-
-$$
-S+(l-1)q=n, \quad \frac{S}{2} \le q \le S
-$$
-
- 
-Optimal scaling:
-
-- Number of intervals: $l=\left( \frac{n(1 - \rho)}{\rho} \right)^{1/5}$
-- Observations per interval: $S=2n/(l^*+1)$
-- Shift between consecutive intervals: $q=n/(l^*+1)$ 
-- So, overlap: $q/S=1/2$
-- The tuning parameter $\rho$ is selected by cross-validated predictive performance over a prespecified grid 
-
-This balances:
-- Bias (oversmoothing)  
-- Variance (instability)  
-
----
 
 ## Simulation Study
 
-We evaluate performance under:
+MAPLE is evaluated under a range of simulated settings including
 
-- Nonlinear branching structures  
-- Skewed distributions (log-normal)  
-- Correlated predictors  
-- Varying noise levels  
-- Sample sizes: 250, 500, 1000  
-
-### Key Findings
-
-- Outperforms classical models under heterogeneous structure  
-- Comparable performance under homogeneous settings  
-- Strong robustness to noise  
-
----
+- Nonlinear branching structures
+- Heterogeneous predictor-response relationships
+- Skewed covariate distributions
+- Correlated predictors
+- Varying noise levels
+- Varying sample sizes (250, 500, 1000)
+- Performance is evaluated using
+  - Quadratic Weighted Kappa (QWK)
+  - Concordance Index (C-index)
 
 ## Applications
 
 ### 1. Parkinson’s Disease (PPMI)
-Predict Hoehn–Yahr stage  
 
-<table align="center" width="100%">
-<tr>
-<td align="center" width="50%">
-<img src="Images/Mapper_plot.png" width="100%"><br>
-<b>Mapper Plot</b>
-</td>
+Prediction of the **Hoehn–Yahr stage** using baseline clinical and biomarker data from the Parkinson's Progression Markers Initiative (PPMI).
 
-<td align="center" width="50%">
-<img src="Images/tSNE_plot.png" width="100%"><br>
-<b>t-SNE Plot</b>
-</td>
-</tr>
-</table>
++-------------------------------+-----------------------------+
+|                               |                             |
++===============================+=============================+
+| ![](Images/PPMI_cutoff5.png)\ | ![](Images/PPMI_t_SNE.png)\ |
+| **Mapper Plot**               | **t-SNE Plot**              |
++-------------------------------+-----------------------------+
+
+The Mapper graph reveals localized disease structure while preserving the connectivity among patient subgroups, providing a more informative representation than conventional low-dimensional visualization.
+
+------------------------------------------------------------------------
 
 ### 2. TCGA Glioma (UCSC Xena)
-Classify tumor severity from RNA-seq data  
 
-## Visualization
+Prediction of **glioma tumor grade** using high-dimensional RNA sequencing data from The Cancer Genome Atlas (TCGA) accessed through the UCSC Xena platform.
 
-### UCSC Xena (TCGA Glioma Data)
+<img src="Images/Final_UCSC_Xena.png" width="700"/>
 
-<p align="center">
-  <img src="Images/Final_UCSC_Xena.png" width="700"/>
-</p>
-
-This figure illustrates Mapper-derived structure in high-dimensional RNA-seq data.
-
-
----
+The resulting Mapper graph summarizes the topological organization of the transcriptomic data, highlighting clinically meaningful patient subgroups with distinct tumor grades and survival characteristics.
 
 ## Requirements
 
 - R (recommended)
 
----
-
-
-
-## How to Use
-
-1. Clone the repository:
-git clone https://github.com/MoinulAhsan/TDA_Mapper_Prediction.git
-
-2. Navigate to:
-
-Simulation Study/  
-Real Data Analysis/  
-
-3. Run scripts to:
-
-- Generate data  
-- Build Mapper graph  
-- Perform prediction  
-- Evaluate performance  
-
----
-
-## Citation
-
-If you use this work, please cite:
-
-Ahsan, M. M., Das, P., Mukhopadhyay, N. D.  
-
-*Mapper-Based Localized Prediction with Data-Driven Cover Selection for High-Dimensional Data*
----
+------------------------------------------------------------------------
 
 ## Contact
 
-**Md Moinul Ahsan**  
-*Virginia Commonwealth University*  
-📧 Email: [ahsanm8@vcu.edu](mailto:ahsanm8@vcu.edu)
+**Md Moinul Ahsan**\
+*Virginia Commonwealth University*\
+📧 Email: [ahsanm8\@vcu.edu](mailto:ahsanm8@vcu.edu)
 
----
+------------------------------------------------------------------------
 
 ## Keywords
 
-**Topological Data Analysis (TDA)**, Mapper, Prediction, High-Dimensional Data, Nonparametric Classification, Biomedical Data
+Topological data analysis, Mapper algorithm, localized prediction, nonparametric classification, Parkinson’s disease, Glioma RNA sequencing, Heterogeneous data structures, High-Dimensional Data
