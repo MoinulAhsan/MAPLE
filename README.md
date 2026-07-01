@@ -86,20 +86,14 @@ The tuning parameter $\rho$ is selected by cross-validation.
 For a new observation $x_{\mathrm{new}}$, MAPLE computes its filter value $t_{\mathrm{new}}=f(x_{\mathrm{new}})$, identifies the corresponding Mapper interval(s), assigns the observation to the nearest Mapper cluster, and constructs a localized graph neighborhood. The conditional class probabilities are estimated by
 
 $$
-\hat{\eta}_r(t_{\mathrm{new}})=
-\sum_{i=1}^{m}
-\tilde{w}_i
-\mathbf{1}(y_i=r),
-\qquad
-r=1,\ldots,R,
+\hat{\eta}_r(t_{\mathrm{new}})=\sum_{i=1}^{m}\tilde{w}_i\,\mathbf{1}(y_i=r),\quad r=1,\ldots,R.
 $$
 
-where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}.$
+where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\lVert u_i-x_{\mathrm{new}}\rVert^{-2}}{\sum_{j=1}^{m}\lVert u_j-x_{\mathrm{new}}\rVert^{-2}}.$
 
-For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}}),$ and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\left\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\right\},$ which defines Ordinal MAPLE (O-MAPLE).
+For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}}),$ and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\{\,r:\hat{F}(r\mid t_{\mathrm{new}})\ge\tfrac12\,\},$ which defines **Ordinal MAPLE (O-MAPLE)**.
 
-For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}}),$ which defines Multinomial MAPLE (M-MAPLE).
-
+For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}}),$ which defines **Multinomial MAPLE (M-MAPLE)**.
 ---
 
 ## Repository Structure
