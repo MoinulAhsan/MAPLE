@@ -69,13 +69,13 @@ $$
 
 The resulting optimal scaling is
 
-- Number of intervals $l^{*}=\left(\frac{8n(1-\rho)}{\rho}\right)^{1/5}$
+- Number of intervals $l^*=\left( \frac{n(1 - \rho)}{\rho} \right)^{1/5}$
 
-- Observations per interval $S^{*}=\frac{2n}{l^{*}+1}$
+- Observations per interval $S^*=2n/(l^*+1)$
 
-- Shift between consecutive intervals $q^{*}=\frac{n}{l^{*}+1}$
+- Shift between consecutive intervals $q^*=n/(l^*+1)$ 
 
-yielding an optimal overlap ratio $\frac{q^{*}}{S^{*}}=\frac12.$
+yielding an optimal overlap ratio $q^*/S^*=1/2$
 
 The tuning parameter $\rho$ is selected by cross-validation.
 
@@ -89,17 +89,15 @@ $$
 \hat{\eta}_r(t_{\mathrm{new}})
 =
 \sum_{i=1}^{m}
-\tilde{w}_i
-\mathbf{1}(y_i=r),
-\qquad
-r=1,\ldots,R,
+\tilde{w}_i \, \mathbf{1}(y_i=r),
+\qquad r=1,\ldots,R.
 $$
 
-where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}.$
+where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}$.
 
-For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}}),$ and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\left\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\frac12\right\},$ which defines Ordinal MAPLE (O-MAPLE).
+For ordinal outcomes, the cumulative estimated probabilities are $\hat{F}(r\mid t_{\mathrm{new}})=\sum_{s=1}^{r}\hat{\eta}_s(t_{\mathrm{new}})$, and the predicted class is obtained using the posterior median rule $\hat{y}(x_{\mathrm{new}})=\inf\{r:\hat{F}(r\mid t_{\mathrm{new}})\ge\tfrac{1}{2}\}$, which defines **Ordinal MAPLE (O-MAPLE)**.
 
-For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}}),$ which defines Multinomial MAPLE (M-MAPLE).
+For nominal outcomes, the predicted class is $\hat{y}(x_{\mathrm{new}})=\arg\max_{1\le r\le R}\hat{\eta}_r(t_{\mathrm{new}})$, which defines **Multinomial MAPLE (M-MAPLE)**.
 
 ------------------------------------------------------------------------
 
