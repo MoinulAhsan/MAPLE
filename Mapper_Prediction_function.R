@@ -43,8 +43,6 @@ mapper_cv_function <- function(data, secondary = FALSE, max_cv = 10, seed = 1234
   opt_intervals_CV <- c()                     # selected number of intervals per CV
   accuracy_rate_CV <- list()                  # accuracy/QWK for each alpha per CV
 
-  neighbor_2nd_count <- 0                     # counts how often secondary neighbors were used
-
   # ============================================================
   # Cross-validation loop
   # ============================================================
@@ -418,7 +416,6 @@ mapper_cv_function <- function(data, secondary = FALSE, max_cv = 10, seed = 1234
 
               row_indices <- row_indices[!is.na(row_indices)]
               response_values <- Y[row_indices]
-              neighbor_2nd_count <- neighbor_2nd_count + 1
             }
           }
 
@@ -511,7 +508,6 @@ mapper_cv_function <- function(data, secondary = FALSE, max_cv = 10, seed = 1234
 
               row_indices <- row_indices[!is.na(row_indices)]
               response_values <- Y[row_indices]
-              neighbor_2nd_count <- neighbor_2nd_count + 1
             }
           }
         }
@@ -591,8 +587,7 @@ mapper_cv_function <- function(data, secondary = FALSE, max_cv = 10, seed = 1234
     mapper_probability_prediction = mapper_probability_prediction,
     true_y_cv = True_Y_CV,
     opt_intervals_cv = opt_intervals_CV,
-    accuracy_rate_cv = accuracy_rate_CV,
-    neighbor_2nd_count = neighbor_2nd_count
+    accuracy_rate_cv = accuracy_rate_CV
   ))
 }
 
