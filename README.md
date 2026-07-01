@@ -30,8 +30,10 @@ Consider independent observations $(x_i,y_i),\; i=1,\ldots,n,\;$ where
 
 MAPLE first constructs a one-dimensional filter $T=f(X),$ using Ordinal Accelerated Sparse Discriminant Analysis (OASDA). The objective is to estimate the conditional class probabilities
 
-$$\eta_r(t)=P(Y=r\mid T=t),
-\qquad r=1,\ldots,R,$$
+$$
+\eta_r(t)=P(Y=r\mid T=t),
+\qquad r=1,\ldots,R,
+$$
 
 which is estimated through localized neighborhoods induced by the Mapper graph.
 
@@ -51,15 +53,19 @@ The resulting Mapper graph captures the local connectivity and global geometric 
 
 MAPLE selects the interval cover by minimizing the bias–variance criterion
 
-$$L(S,l)=\rho S^{-1}+(1-\rho)l^{-4},
+$$
+L(S,l)=\rho S^{-1}+(1-\rho)l^{-4},
 \qquad
-0<\rho<1,$$
+0<\rho<1,
+$$
 
 subject to
 
-$$S+(l-1)q=n,
+$$
+S+(l-1)q=n,
 \qquad
-\frac{S}{2}\le q\le S.$$
+\frac{S}{2}\le q\le S.
+$$
 
 The resulting optimal scaling is
 
@@ -79,13 +85,15 @@ The tuning parameter $\rho$ is selected by cross-validation.
 
 For a new observation $x_{\mathrm{new}}$, MAPLE computes its filter value $t_{\mathrm{new}}=f(x_{\mathrm{new}})$, identifies the corresponding Mapper interval(s), assigns the observation to the nearest Mapper cluster, and constructs a localized graph neighborhood. The conditional class probabilities are estimated by
 
-$$\hat{\eta}_r(t_{\mathrm{new}})
+$$
+\hat{\eta}_r(t_{\mathrm{new}})
 =
 \sum_{i=1}^{m}
 \tilde{w}_i
 \mathbf{1}(y_i=r),
 \qquad
-r=1,\ldots,R,$$
+r=1,\ldots,R,
+$$
 
 where the normalized inverse-squared distance weights are $\tilde{w}_i=\frac{\|u_i-x_{\mathrm{new}}\|^{-2}}{\sum_{j=1}^{m}\|u_j-x_{\mathrm{new}}\|^{-2}}.$
 
@@ -127,12 +135,19 @@ MAPLE is evaluated under a range of simulated settings including
 
 Prediction of the **Hoehn–Yahr stage** using baseline clinical and biomarker data from the Parkinson's Progression Markers Initiative (PPMI).
 
-+-------------------------------+-----------------------------+
-|                               |                             |
-+===============================+=============================+
-| ![](Images/PPMI_cutoff5.png)\ | ![](Images/PPMI_t_SNE.png)\ |
-| **Mapper Plot**               | **t-SNE Plot**              |
-+-------------------------------+-----------------------------+
+<table align="center" width="100%">
+<tr>
+<td align="center" width="50%">
+<img src="Images/PPMI_cutoff5.png" width="100%"><br>
+<b>Mapper Plot</b>
+</td>
+
+<td align="center" width="50%">
+<img src="Images/PPMI_t_SNE.png" width="100%"><br>
+<b>t-SNE Plot</b>
+</td>
+</tr>
+</table>
 
 The Mapper graph reveals localized disease structure while preserving the connectivity among patient subgroups, providing a more informative representation than conventional low-dimensional visualization.
 
@@ -142,7 +157,9 @@ The Mapper graph reveals localized disease structure while preserving the connec
 
 Prediction of **glioma tumor grade** using high-dimensional RNA sequencing data from The Cancer Genome Atlas (TCGA) accessed through the UCSC Xena platform.
 
-<img src="Images/Final_UCSC_Xena.png" width="700"/>
+<p align="center">
+  <img src="Images/Final_UCSC_Xena.png" width="700"/>
+</p>
 
 The resulting Mapper graph summarizes the topological organization of the transcriptomic data, highlighting clinically meaningful patient subgroups with distinct tumor grades and survival characteristics.
 
