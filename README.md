@@ -69,13 +69,13 @@ $$
 
 The resulting optimal scaling is
 
-- Number of intervals: $l^*=\left(\frac{8n(1-\rho)}{\rho}\right)^{1/5}$
+- Number of intervals: $l^\ast=\left(\frac{8n(1-\rho)}{\rho}\right)^{1/5}$
 
-- Observations per interval: $S^*=\frac{2n}{l^*+1}$
+- Observations per interval: $S^\ast=\frac{2n}{l^\ast+1}$
 
-- Shift between consecutive intervals: $q^*=\frac{n}{l^*+1}$
+- Shift between consecutive intervals: $q^\ast=\frac{n}{l^\ast+1}$
 
-yielding an optimal overlap ratio $q^*/S^*=1/2$.
+yielding an optimal overlap ratio $\frac{q^\ast}{S^\ast}=\frac{1}{2}$.
 
 The tuning parameter $\rho$ is selected by cross-validation.
 
